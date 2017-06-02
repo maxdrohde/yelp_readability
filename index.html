@@ -8,12 +8,29 @@
 </head>
 
 <body id='vis'>
-<h2>Yelp Readability</h1>
-<h4>By Caleb Braun and Max Rohde</h3>
-<br>
+    <div class='title'>
+        <h2>Yelp Readability</h2>
+        <h4>By Caleb Braun and Max Rohde</h4>
+    </div>
+    <div class='container'>
+        <div class='filters'>
+            <div class='businesses'>
+                Filter by businesses
+                <br><br>
+            </div>
+            <div class='cities'>
+            </div>
+            <div class='date-slider'>
+            </div>
+        </div>
+        <div class='chart'>
+            <svg id='beanplot'></svg>
+        </div>
+        <div class="clear"></div>
+    </div>
 </body>
 
 <script src="//d3js.org/d3.v3.min.js"></script>
-<script src="readability.js">
+<script src="readability.js"></script>
 
 </html>
