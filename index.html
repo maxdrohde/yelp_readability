@@ -5,13 +5,16 @@
     <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
     <link href='//fonts.googleapis.com/css?family=Chivo' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="distrochart.css">
 </head>
 
 <body id='vis'>
+
     <div class='title'>
         <h2>Yelp Readability</h2>
         <h4>By Caleb Braun and Max Rohde</h4>
     </div>
+
     <div class='container'>
         <div class='filters'>
             <div class='businesses'>
@@ -24,13 +27,25 @@
             </div>
         </div>
         <div class='chart'>
-            <svg id='beanplot'></svg>
+            <div class="chart-wrapper" id="chart-distro1">
+                <p>Show: </p>
+                <button onclick="chart1.violinPlots.hide();chart1.boxPlots.show({reset:true});chart1.notchBoxes.hide();chart1.dataPlots.change({showPlot:false,showBeanLines:false})">Box Plot</button>
+                <button onclick="chart1.violinPlots.show({reset:true,clamp:1});chart1.boxPlots.show({reset:true, showWhiskers:false,showOutliers:false,boxWidth:10,lineWidth:15,colors:['#555']});chart1.notchBoxes.hide();chart1.dataPlots.change({showPlot:false,showBeanLines:false})">Violin Plot</button>
+                <button onclick="chart1.violinPlots.show({reset:true, width:75, clamp:0, resolution:30, bandwidth:1});chart1.dataPlots.show({showBeanLines:true,beanWidth:15,showPlot:false,colors:['#555']});chart1.boxPlots.hide();chart1.notchBoxes.hide()">Bean Plot</button>
+                <button onclick="chart1.violinPlots.hide();chart1.dataPlots.show({showPlot:true, plotType:40, showBeanLines:false,colors:null});chart1.notchBoxes.hide();chart1.boxPlots.hide();">Scatter Plot</button>
+                <button onclick="if(chart1.dataPlots.options.showLines){chart1.dataPlots.change({showLines:false});} else {chart1.dataPlots.change({showLines:['median','quartile1','quartile3']});}">Trend Lines</button>
+            </div>
         </div>
+
         <div class="clear"></div>
+
     </div>
 </body>
 
 <script src="//d3js.org/d3.v3.min.js"></script>
-<script src="readability.js"></script>
+<!-- <script src="readability.js"></script> -->
+
+<script src="distrochart.js" charset="utf-8"></script>
+<script src="buildCharts.js"></script>
 
 </html>
