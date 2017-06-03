@@ -47,9 +47,19 @@ for (var i = 0; i < businessTypes.length; i++) {
 d3.csv(csvFile, function(error, csv_data) {
     console.log("loaded!");
     if (error) throw error;
+
+    // Make sure number values are numbers
+    nums = ['funny', 'stars', 'useful', 'cool', 'flesch_kincaid_grade', 'flesch_reading_ease', 'smog_index', 'coleman_liau_index', 'automated_readability_index', 'dale_chall_readability_score', 'gunning_fog', 'price', 'length'];
+    csv_data.forEach(function (d) {
+        for (var i = 0; i < nums.length; i++) {
+            d[nums[i]] = +d[nums[i]]
+        }
+    });
+
     data = csv_data;
     update();
 });
+
 
 function update() {
     var newData = data;
@@ -86,20 +96,35 @@ function update() {
         });
     }
 
-    newItems = svg.selectAll("circle").data(newData);
+    d3.select(".inner-wrapper").remove();
 
-    newItems.enter()
-        .append('svg:circle')
-        .attr('r', function(d) { return 2 }) //return d["useful"]; })
-        .attr('cx', function(d) {
-            var variance = parseInt(Math.abs(d["flesch_reading_ease"] - 50)) * Math.random();
-            return (d["stars"]) * 110 + variance;
-        })
-        .attr('cy', function(d) { return (d["flesch_reading_ease"] * 5 - 150); })
-        .style('fill', 'black');
+    chart1 = makeDistroChart({
+        data: newData,
+        xName:'state',
+        yName:'coleman_liau_index',
+        axisLabels: {xAxis: 'State', yAxis: 'Values'},
+        selector:"#chart-distro1",
+        chartSize:{height:490, width:800},
+        constrainExtremes:true});
+    chart1.renderBoxPlot();
+    chart1.renderDataPlots();
+    chart1.renderNotchBoxes({showNotchBox:false});
+    chart1.renderViolinPlot({showViolinPlot:false});
 
-    newItems.exit()
-        .remove();
+    // newItems = svg.selectAll("circle").data(newData);
+    //
+    // newItems.enter()
+    //     .append('svg:circle')
+    //     .attr('r', function(d) { return 2 }) //return d["useful"]; })
+    //     .attr('cx', function(d) {
+    //         var variance = parseInt(Math.abs(d["flesch_reading_ease"] - 50)) * Math.random();
+    //         return (d["stars"]) * 110 + variance;
+    //     })
+    //     .attr('cy', function(d) { return (d["flesch_reading_ease"] * 5 - 150); })
+    //     .style('fill', 'black');
+    //
+    // newItems.exit()
+    //     .remove();
 }
 
 function makeValidSelector(name) {

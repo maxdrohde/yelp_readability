@@ -6,9 +6,9 @@ d3.csv('reviews_with_prices.csv', function(error, data) {
         data: data,
         xName:'state',
         yName:'coleman_liau_index',
-        axisLabels: {xAxis: null, yAxis: 'Values'},
+        axisLabels: {xAxis: 'State', yAxis: 'Values'},
         selector:"#chart-distro1",
-        chartSize:{height:400, width:800},
+        chartSize:{height:490, width:800},
         constrainExtremes:true});
     chart1.renderBoxPlot();
     chart1.renderDataPlots();
