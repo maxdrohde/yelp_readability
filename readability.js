@@ -49,7 +49,7 @@ d3.csv(csvFile, function(error, csv_data) {
     });
 
     data = csv_data;
-    init(data);
+    init(data,'stars');
 });
 
 
@@ -112,10 +112,10 @@ function update() {
 
 }
 
-function init(newData) {
+function init(newData, xvals) {
     chart1 = makeDistroChart({
         data:newData,
-        xName:'state',
+        xName:xvals,
         yName:'coleman_liau_index',
         axisLabels: {xAxis: 'State', yAxis: 'Values'},
         selector:"#chart-distro1",
@@ -125,6 +125,13 @@ function init(newData) {
     chart1.renderDataPlots();
     chart1.renderNotchBoxes({showNotchBox:false});
     chart1.renderViolinPlot({showViolinPlot:false});
+}
+
+
+function callInit(xvals) {
+    init(data,xvals);
+    console.log(xvals);
+    update();
 }
 
 function initBusinessFilters() {

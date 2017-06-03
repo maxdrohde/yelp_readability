@@ -13,5 +13,5 @@ d3.csv('reviews_with_prices.csv', function(error, data) {
     chart1.renderBoxPlot();
     chart1.renderDataPlots();
     chart1.renderNotchBoxes({showNotchBox:false});
-    chart1.renderViolinPlot({showViolinPlot:false});
+    chart1.renderViolinPlot({showViolinPlot:false,bandwidth:5});
 });

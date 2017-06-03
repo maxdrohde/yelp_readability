@@ -139,6 +139,7 @@ function makeDistroChart(settings) {
      */
     function tooltipHover(groupName, metrics) {
         var tooltipString = "Group: " + groupName;
+        tooltipString += "<br\>Number of Points: " + formatAsFloat(metrics.number);
         tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1);
         tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3);
         tooltipString += "<br\>Median: " + formatAsFloat(metrics.median);
@@ -170,6 +171,7 @@ function makeDistroChart(settings) {
                 min: null
             };
 
+            metrics.number = values.length;
             metrics.min = d3.min(values);
             metrics.quartile1 = d3.quantile(values, 0.25);
             metrics.median = d3.median(values);
