@@ -18,6 +18,7 @@ h2, h4 {
     overflow: hidden;
     padding-left: 20px;
     text-align: center;
+    border-top: #535353 solid 2px;
 }
 
 .filters {
@@ -29,14 +30,20 @@ h2, h4 {
 .businesses {
     width: 100%;
     height: 60%;
-    /*background-color: #E59FF1;*/
+    background-color: #FBF59F;
     padding-top: 10px;
     padding-left: 20px;
+    overflow-y: scroll;
+    border: #535353 solid 2px;
 }
 .cities {
     width: 100%;
     height: 25%;
-    /*background-color: lightgreen;*/
+    padding-top: 10px;
+    padding-left: 20px;
+    border: #535353 solid 2px;
+    overflow-y: scroll;
+    background-color: lightgreen;
 }
 .date-slider {
     width: 100%;

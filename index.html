@@ -22,6 +22,8 @@
                 <br><br>
             </div>
             <div class='cities'>
+                Filter by city
+                <br><br>
             </div>
             <div class='date-slider'>
             </div>
@@ -30,11 +32,11 @@
         <div class='chart'>
             <div class="chart-wrapper" id="chart-distro1">
                 <p><br>Readability</p>
-                <button onclick="chart1.violinPlots.hide();chart1.boxPlots.show({reset:true});chart1.notchBoxes.hide();chart1.dataPlots.change({showPlot:false,showBeanLines:false})">Box Plot</button>
-                <button onclick="chart1.violinPlots.show({reset:true,clamp:1});chart1.boxPlots.show({reset:true, showWhiskers:false,showOutliers:false,boxWidth:10,lineWidth:15,colors:['#555']});chart1.notchBoxes.hide();chart1.dataPlots.change({showPlot:false,showBeanLines:false})">Violin Plot</button>
-                <button onclick="chart1.violinPlots.show({reset:true, width:75, clamp:0, resolution:30, bandwidth:1});chart1.dataPlots.show({showBeanLines:true,beanWidth:15,showPlot:false,colors:['#555']});chart1.boxPlots.hide();chart1.notchBoxes.hide()">Bean Plot</button>
-                <button onclick="chart1.violinPlots.hide();chart1.dataPlots.show({showPlot:true, plotType:40, showBeanLines:false,colors:null});chart1.notchBoxes.hide();chart1.boxPlots.hide();">Scatter Plot</button>
-                <button onclick="if(chart1.dataPlots.options.showLines){chart1.dataPlots.change({showLines:false});} else {chart1.dataPlots.change({showLines:['median','quartile1','quartile3']});}">Trend Lines</button>
+                <button onclick="handleBoxPlotButton();">Box Plot</button>
+                <button onclick="handleViolinPlotButton();">Violin Plot</button>
+                <button onclick="handleBeanPlotButton();">Bean Plot</button>
+                <button onclick="handleScatterPlotButton()">Scatter Plot</button>
+                <button onclick="handleTrendLinesButton()">Trend Lines</button>
             </div>
         </div>
 
@@ -43,6 +45,7 @@
 
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="distrochart.js" charset="utf-8"></script>
+<script src="buttonActions.js" charset="utf-8"></script>
 
 <script src="readability.js"></script>
 <!-- <script src="buildCharts.js"></script> -->

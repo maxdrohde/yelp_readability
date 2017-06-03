@@ -2,7 +2,8 @@
 
 var width = 800;
 var height = 600;
-var csvFile = "combined_reviews_business100k.csv";
+// var csvFile = "combined_reviews_business100k.csv";
+var csvFile = "reviews_with_prices_fixed.csv";
 var data;
 
 var businessTypes = ['Active Life',
@@ -32,17 +33,8 @@ var svg = d3.select('#beanplot')
     .attr('height', height)
     .attr('width', width);
 
-for (var i = 0; i < businessTypes.length; i++) {
-    d3.select(".businesses").append('label')
-        .attr('id', 'label'+i)
-        .append('input')
-        .attr('type', 'checkbox')
-        .attr('id', makeValidSelector(businessTypes[i]))
-        // .attr('checked', 'true')
-        .on('change', update);
-    d3.select('#label'+i).append('span')
-        .html(businessTypes[i]);
-}
+initBusinessFilters();
+initCityFilters();
 
 d3.csv(csvFile, function(error, csv_data) {
     console.log("loaded!");
@@ -78,14 +70,15 @@ function update() {
         newData = newData.filter(function(d) {
 
             // format the data into JSON
-            var x = d["categories"].replace(/\', \'/g, '", "');
-            x = x.replace(/\[\'/g, '["');
-            x = x.replace(/\'\]/g, '"]');
-            x = x.replace(/\", \'/g, '", "');
-            x = x.replace(/\', \"/g, '", "');
+            // var x = d["categories"].replace(/\', \'/g, '", "');
+            // x = x.replace(/\[\'/g, '["');
+            // x = x.replace(/\'\]/g, '"]');
+            // x = x.replace(/\", \'/g, '", "');
+            // x = x.replace(/\', \"/g, '", "');
+            var x = d["categories"];
             if (x.length == 0) { return true; }
             // End format
-
+            // console.log(x);
             var categories = JSON.parse(x);
             for (var i = 0; i < categories.length; i++) {
                 if (uncheckedCategories.indexOf(categories[i]) > -1) {
@@ -133,5 +126,62 @@ function makeValidSelector(name) {
     return valid;
 }
 
+function initBusinessFilters() {
+    for (var i = 0; i < businessTypes.length; i++) {
+        d3.select(".businesses").append('label')
+            .attr('id', 'label'+i)
+            .append('input')
+            .attr('type', 'checkbox')
+            .attr('id', makeValidSelector(businessTypes[i]))
+            // .attr('checked', 'true')
+            .on('change', update);
+        d3.select('#label'+i).append('span')
+            .html(businessTypes[i]);
+    }
+}
 
+
+function initBusinessFilters() {
+    for (var i = 0; i < businessTypes.length; i++) {
+        d3.select(".businesses").append('label')
+            .attr('id', 'label'+i)
+            .append('input')
+            .attr('type', 'checkbox')
+            .attr('id', makeValidSelector(businessTypes[i]))
+            // .attr('checked', 'true')
+            .on('change', update);
+        d3.select('#label'+i).append('span')
+            .html(businessTypes[i]);
+    }
+}
+
+function initCityFilters() {
+    var states = ['PA','NC','IL','AZ','NV','WI','OH'];
+    var cityDiv = d3.select(".cities");
+    for (var i = 0; i < states.length; i++) {
+        cityName = convertStateToCity(states[i])
+        cityDiv.append('label')
+            .attr('id', 'cityLabel'+i)
+            .append('input')
+            .attr('type', 'checkbox')
+            .attr('id', makeValidSelector(cityName))
+            .on('change', update)
+        d3.select('#cityLabel'+i).append('span')
+            .html(cityName);
+    }
+}
+
+
+function convertStateToCity(state) {
+    var stateToCity = {
+        'PA' : 'Pittsburgh',
+        'NC' : 'Charlotte',
+        'IL' : 'Urbana-Champaign',
+        'AZ' : 'Phoenix',
+        'NV' : 'Las Vegas',
+        'WI' : 'Madison',
+        'OH' : 'Cleveland'
+    }
+    return stateToCity[state];
+}
 //
