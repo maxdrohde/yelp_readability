@@ -37,15 +37,34 @@
                 <button onclick="handleBeanPlotButton();">Bean Plot</button>
                 <button onclick="handleScatterPlotButton()">Scatter Plot</button>
                 <button onclick="handleTrendLinesButton()">Trend Lines</button>
+
+                <label for="bandwidthBar">Bandwidth</label>
+                <input type="range" min="1" max="15" value="8" id="bandwidthBar" step="1" oninput="outputUpdate(value)">
+                <output for="bandwidthBar" id="bandwidth">8</output>
+
             </div>
         </div>
 
+        <div class="dropdown">
+  <button class="dropbtn">Dropdown</button>
+  <div class="dropdown-content">
+    <div onclick="callInit('stars');">Stars</div>
+    <div onclick="callInit('state');">States</div>
+    <div onclick="callInit('price');">Price </div>
+  </div>
+
+
+</div>
+
     </div>
+
+</div>
 </body>
 
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="distrochart.js" charset="utf-8"></script>
 <script src="buttonActions.js" charset="utf-8"></script>
+<script src="sliderFunction.js" charset="utf-8"></script>
 
 <script src="readability.js"></script>
 <!-- <script src="buildCharts.js"></script> -->
