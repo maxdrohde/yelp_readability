@@ -31,19 +31,23 @@ for att in attributes_to_convert:
 # Write the header
 reviews_writer.writerow(header)
 
+businessTypes = ['Active Life','Arts & Entertainment','Automotive','Beauty & Spas','Education','Event Planning & Services','Financial Services','Food','Health & Medical','Home Services','Hotels & Travel','Local Flavor','Local Services','Mass Media','Nightlife','Pets','Professional Services','Public Services & Government','Real Estate','Religious Organizations','Restaurants','Shopping']
 x = 0
 for row in reviews_reader:
-    x += 1
+    c = 0
     for col in attributes_to_convert.values():
         try:
             data = eval(row[col])
         except Exception as e:
             data = []
+            c += 1
+
         row[col] = json.dumps(data)
 
+    if c == 2: x += 1
     reviews_writer.writerow(row)
 
-
+print x
 print "Total time: ", time.time() - st
 
 

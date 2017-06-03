@@ -54,6 +54,7 @@ d3.csv(csvFile, function(error, csv_data) {
 
 
 function update() {
+    console.log("updating!");
     var newData = data;
     var uncheckedCategories = [];
 
@@ -69,9 +70,9 @@ function update() {
     for (var i = 0; i < uncheckedCategories.length; i++) {
         newData = newData.filter(function(d) {
             var x = d["categories"];
-            if (x.length == 0) { return true; }
-
             var categories = JSON.parse(x);
+            if (categories.length == 0) { return false; }
+
             for (var i = 0; i < categories.length; i++) {
                 if (uncheckedCategories.indexOf(categories[i]) > -1) {
                     return false;
@@ -79,6 +80,16 @@ function update() {
             }
             return true;
         });
+    }
+
+    if (newData.length == 0) {
+        console.log("SD:LFKJSD:LFKJSD:FLKJSDL:FKJ");
+        d3.select(".inner-wrapper")
+            .html("")
+            .append('span')
+            .append('h2')
+            .html("No Data");
+        return;
     }
 
     d3.select(".inner-wrapper").remove();
@@ -118,14 +129,11 @@ function init(newData) {
 
 function initBusinessFilters() {
     var businessDiv = d3.select(".businesses");
-    businessDiv.append('label')
-        .attr('id', 'selectAllBusinesses')
-        .append('input')
-        .attr('type', 'checkbox')
-        .on('change', checkAll(businessDiv));
-
-    d3.select('#selectAllBusinesses').append('span')
-        .html('Select All');
+    businessDiv.append('input')
+        .attr('type', 'button')
+        .attr('id', 'selectAllButton')
+        .attr('value', 'Select All')
+        .on('click', function() {checkAll(businessDiv);});
 
     for (var i = 0; i < businessTypes.length; i++) {
         businessDiv.append('label')
@@ -157,9 +165,13 @@ function initCityFilters() {
 }
 
 function checkAll(div) {
-    div.selectAll('input').attr('checked', 'true');
+    var button = div.select('#selectAllButton');
+    var buttonText = button.property('value') == 'Select All' ? 'Deselect All' : 'Select All';
+    var select = (buttonText == 'Deselect All');
+    div.selectAll('input').property('checked', select);
+    d3.select('#selectAllButton').attr('value', buttonText);
+    update();
 }
-
 
 function convertStateToCity(state) {
     var stateToCity = {
