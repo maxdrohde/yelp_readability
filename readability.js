@@ -28,13 +28,14 @@ var businessTypes = ['Active Life',
                     'Religious Organizations',
                     'Restaurants',
                     'Shopping']
+var states = ['NC','OH','NV','WI','AZ','PA','IL'];
 
 var svg = d3.select('#beanplot')
     .attr('height', height)
     .attr('width', width);
 
-initBusinessFilters();
-initCityFilters();
+initFilter('businesses', businessTypes);
+initFilter('cities', states.map(convertStateToCity));
 
 d3.csv(csvFile, function(error, csv_data) {
     console.log("loaded!");
@@ -54,11 +55,10 @@ d3.csv(csvFile, function(error, csv_data) {
 
 
 function update() {
-    console.log("updating!");
     var newData = data;
     var uncheckedCategories = [];
 
-    // loop through each checkbox
+    // Find which checkboxes are not checked
     for (var i = 0; i < businessTypes.length; i++) {
         var checkbox = d3.select("#" + makeValidSelector(businessTypes[i]));
         if (!checkbox.property("checked")) {
@@ -82,16 +82,22 @@ function update() {
         });
     }
 
+    // Check if there is any data to plot
     if (newData.length == 0) {
-        console.log("SD:LFKJSD:LFKJSD:FLKJSDL:FKJ");
-        d3.select(".inner-wrapper")
-            .html("")
+        d3.select('.inner-wrapper')
+            .html('')
             .append('span')
             .append('h2')
-            .html("No Data");
-        return;
-    }
+            .html('No Data');
 
+        d3.select('.chart').selectAll('button').property('disabled', true);
+    } else {
+        d3.select('.chart').selectAll('button').property('disabled', false);
+        redrawChart(newData);
+    }
+}
+
+function redrawChart(newData) {
     d3.select(".inner-wrapper").remove();
     var showViolin = chart1.violinPlots.options.show;
     var showBean = chart1.dataPlots.options.showBeanLines;
@@ -127,49 +133,33 @@ function init(newData) {
     chart1.renderViolinPlot({showViolinPlot:false});
 }
 
-function initBusinessFilters() {
-    var businessDiv = d3.select(".businesses");
-    businessDiv.append('input')
+function initFilter(divId, labels) {
+    var div = d3.select("." + divId);
+    div.append('input')
         .attr('type', 'button')
         .attr('id', 'selectAllButton')
-        .attr('value', 'Select All')
-        .on('click', function() {checkAll(businessDiv);});
+        .attr('value', 'Deselect All')
+        .on('click', function() {toggleCheckboxes(div);});
 
-    for (var i = 0; i < businessTypes.length; i++) {
-        businessDiv.append('label')
-            .attr('id', 'label'+i)
+    for (var i = 0; i < labels.length; i++) {
+        div.append('label')
+            .attr('id', divId+'Label'+i)
             .append('input')
             .attr('type', 'checkbox')
-            .attr('id', makeValidSelector(businessTypes[i]))
-            // .attr('checked', 'true')
+            .attr('id', makeValidSelector(labels[i]))
+            .property('checked', true)
             .on('change', update);
-        d3.select('#label'+i).append('span')
-            .html(businessTypes[i]);
+        d3.select('#'+divId+'Label'+i).append('span')
+            .html(labels[i]);
     }
 }
 
-function initCityFilters() {
-    var states = ['NC','OH','NV','WI','AZ','PA','IL'];
-    var cityDiv = d3.select(".cities");
-    for (var i = 0; i < states.length; i++) {
-        cityName = convertStateToCity(states[i])
-        cityDiv.append('label')
-            .attr('id', 'cityLabel'+i)
-            .append('input')
-            .attr('type', 'checkbox')
-            .attr('id', makeValidSelector(cityName))
-            .on('change', update)
-        d3.select('#cityLabel'+i).append('span')
-            .html(cityName);
-    }
-}
-
-function checkAll(div) {
+function toggleCheckboxes(div) {
     var button = div.select('#selectAllButton');
     var buttonText = button.property('value') == 'Select All' ? 'Deselect All' : 'Select All';
     var select = (buttonText == 'Deselect All');
     div.selectAll('input').property('checked', select);
-    d3.select('#selectAllButton').attr('value', buttonText);
+    button.attr('value', buttonText);
     update();
 }
 
