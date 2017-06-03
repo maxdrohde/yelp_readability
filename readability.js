@@ -1,42 +1,33 @@
+/**
+ * FINAL PROJECT
+ * CS314 - Data Visualization
+ * Prof: Eric Alexander
+ *
+ * Authors: Caleb Braun, Max Rohde
+ * 6/3/17
+ */
 
-
+// Chart display variables
 var width = 800;
 var height = 600;
-// var csvFile = "combined_reviews_business100k.csv";
-var csvFile = "reviews_with_prices_fixed.csv";
-var data;
 
-var businessTypes = ['Active Life',
-                    'Arts & Entertainment',
-                    'Automotive',
-                    'Beauty & Spas',
-                    'Education',
-                    'Event Planning & Services',
-                    'Financial Services',
-                    'Food',
-                    'Health & Medical',
-                    'Home Services',
-                    'Hotels & Travel',
-                    'Local Flavor',
-                    'Local Services',
-                    'Mass Media',
-                    'Nightlife',
-                    'Pets',
-                    'Professional Services',
-                    'Public Services & Government',
-                    'Real Estate',
-                    'Religious Organizations',
-                    'Restaurants',
-                    'Shopping']
+// Data variables
+// var csvFile = "combined_reviews_business100k.csv";
+var data;
+var csvFile = "reviews_with_prices_fixed.csv";
+var businessTypes = ['Active Life','Arts & Entertainment','Automotive','Beauty & Spas','Education','Event Planning & Services','Financial Services','Food','Health & Medical','Home Services','Hotels & Travel','Local Flavor','Local Services','Mass Media','Nightlife','Pets','Professional Services','Public Services & Government','Real Estate','Religious Organizations','Restaurants','Shopping']
 var states = ['NC','OH','NV','WI','AZ','PA','IL'];
 
+// Create the plot
 var svg = d3.select('#beanplot')
     .attr('height', height)
     .attr('width', width);
 
+// Create the filter sidebar
 initFilter('businesses', businessTypes);
 initFilter('cities', states.map(convertStateToCity));
 
+// Load the data and create the plot
 d3.csv(csvFile, function(error, csv_data) {
     console.log("loaded!");
     if (error) throw error;
@@ -53,10 +44,14 @@ d3.csv(csvFile, function(error, csv_data) {
     init(data);
 });
 
-
+/**
+ * Updates the data being shown by going through all the filters and only
+ * plotting data corresponding to checked boxes.
+ */
 function update() {
     var newData = data;
     var uncheckedCategories = [];
+    var uncheckedStates = [];
 
     // Find which checkboxes are not checked
     for (var i = 0; i < businessTypes.length; i++) {
@@ -65,22 +60,28 @@ function update() {
             uncheckedCategories.push(businessTypes[i]);
         }
     }
-
-    // Filter out unchecked categories
-    for (var i = 0; i < uncheckedCategories.length; i++) {
-        newData = newData.filter(function(d) {
-            var x = d["categories"];
-            var categories = JSON.parse(x);
-            if (categories.length == 0) { return false; }
-
-            for (var i = 0; i < categories.length; i++) {
-                if (uncheckedCategories.indexOf(categories[i]) > -1) {
-                    return false;
-                }
-            }
-            return true;
-        });
+    cities = states.map(convertStateToCity);
+    for (var i = 0; i < cities.length; i++) {
+        var checkbox = d3.select("#" + makeValidSelector(cities[i]));
+        if (!checkbox.property("checked")) {
+            uncheckedStates.push(states[i]);
+        }
     }
+
+    newData = newData.filter(function(d) {
+        // Check state filter
+        if (uncheckedStates.indexOf(d['state']) > -1) return false;
+
+        var categories = JSON.parse(d['categories']);
+        if (categories.length == 0) return false;
+
+        for (var i = 0; i < categories.length; i++) {
+            if (uncheckedCategories.indexOf(categories[i]) > -1) {
+                return false;
+            }
+        }
+        return true;
+    })
 
     // Check if there is any data to plot
     if (newData.length == 0) {
@@ -97,6 +98,10 @@ function update() {
     }
 }
 
+/**
+ * Removes the previous chart and redraws it with the filtered data
+ * @param newData
+ */
 function redrawChart(newData) {
     d3.select(".inner-wrapper").remove();
     var showViolin = chart1.violinPlots.options.show;
@@ -118,6 +123,10 @@ function redrawChart(newData) {
 
 }
 
+/**
+ * Creates a distrochart with the given data and parameters
+ * @param newData
+ */
 function init(newData) {
     chart1 = makeDistroChart({
         data:newData,
@@ -133,6 +142,11 @@ function init(newData) {
     chart1.renderViolinPlot({showViolinPlot:false});
 }
 
+/**
+ * Creates a sidebar filter in the given div for each label given
+ * @param divId
+ * @param labels
+ */
 function initFilter(divId, labels) {
     var div = d3.select("." + divId);
     div.append('input')
@@ -154,6 +168,11 @@ function initFilter(divId, labels) {
     }
 }
 
+/**
+ * Toggles all checkboxes in the given div based on the value of the select
+ * button within that div.
+ * @param div
+ */
 function toggleCheckboxes(div) {
     var button = div.select('#selectAllButton');
     var buttonText = button.property('value') == 'Select All' ? 'Deselect All' : 'Select All';
@@ -163,6 +182,10 @@ function toggleCheckboxes(div) {
     update();
 }
 
+/**
+ * Conversion function for the city within each state
+ * @param state
+ */
 function convertStateToCity(state) {
     var stateToCity = {
         'NC' : 'Charlotte',
@@ -176,9 +199,12 @@ function convertStateToCity(state) {
     return stateToCity[state];
 }
 
+/**
+ * Takes any business category or place name and makes it a valid CSS selector
+ * @param name
+ */
 function makeValidSelector(name) {
     valid = name.replace(/\s/g, '-');
     valid = valid.replace(/\&/g, 'and');
     return valid;
 }
-//
