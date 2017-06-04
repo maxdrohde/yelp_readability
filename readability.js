@@ -88,6 +88,7 @@ function update() {
         d3.select('.inner-wrapper')
             .html('')
             .append('span')
+            .attr('class', 'nodata')
             .append('h2')
             .html('No Data');
 
@@ -106,10 +107,12 @@ function update() {
  */
 function redrawChart(newData, xvals, yvals) {
     d3.select(".inner-wrapper").remove();
+    
     var showViolin = chart1.violinPlots.options.show;
     var showBean = chart1.dataPlots.options.showBeanLines;
     var showScatter = chart1.dataPlots.options.showPlot;
     var showTrends = chart1.dataPlots.options.showLines;
+
     init(newData, xvals, yvals);
 
     if (showTrends) handleTrendLinesButton();
