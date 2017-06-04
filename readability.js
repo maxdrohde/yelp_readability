@@ -135,7 +135,7 @@ function init(newData, xvals, yvals) {
         data:newData,
         xName:xvals,
         yName:yvals,
-        axisLabels: {xAxis: 'State', yAxis: 'Values'},
+        axisLabels: {xAxis: xvals, yAxis: yvals},
         selector:"#chart-distro1",
         chartSize:{height:490, width:800},
         constrainExtremes:true});
