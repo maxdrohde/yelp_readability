@@ -155,7 +155,7 @@ function callInit(xvals) {
  */
 function initFilter(divId, labels) {
     var div = d3.select("." + divId);
-    div.append('input')
+    div.select('p').append('input')
         .attr('type', 'button')
         .attr('id', 'selectAllButton')
         .attr('value', 'Deselect All')
