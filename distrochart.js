@@ -1513,7 +1513,20 @@ function makeDistroChart(settings) {
                         cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
                             .attr('r', dOpts.pointSize / 2)// Options is diameter, r takes radius so divide by 2
-                            .style("fill", chart.dataPlots.colorFunct(cName)));
+                            .style("fill", chart.dataPlots.colorFunct(cName))
+
+                            .on("mouseover", function() {
+                                tooltip.style("visibility", "visible");
+                                tooltip.text('a')
+                            })
+                            .on("mousemove", function() {
+                                tooltip.style("top",(d3.event.pageY-80)+"px").style("left",(d3.event.pageX+80)+"px");
+                            })
+                            .on("mouseout", function(){
+                                tooltip.style("visibility", "hidden");
+
+                            })
+                            );
                     }
                 }
 
@@ -1527,6 +1540,7 @@ function makeDistroChart(settings) {
                             .attr("class", "bean line")
                             .style("stroke-width", '1')
                             .style("stroke", chart.dataPlots.colorFunct(cName)));
+
                     }
                 }
             }

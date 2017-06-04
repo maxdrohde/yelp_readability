@@ -44,6 +44,16 @@ d3.csv(csvFile, function(error, csv_data) {
     init(data, 'stars', 'coleman_liau_index');
 });
 
+var tooltip = d3.select("body")
+    .append("div")
+    .style('font', '14 px serif') 
+    .style('background', 'lightsteelblue')     
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .style("color", "black")
+    .text("a simple tooltip");
+
 /**
  * Updates the data being shown by going through all the filters and only
  * plotting data corresponding to checked boxes.
