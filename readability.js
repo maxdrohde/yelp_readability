@@ -41,7 +41,7 @@ d3.csv(csvFile, function(error, csv_data) {
     });
 
     data = csv_data;
-    init(data,'stars');
+    init(data, 'stars', 'coleman_liau_index');
 });
 
 /**
@@ -94,7 +94,9 @@ function update() {
         d3.select('.chart').selectAll('button').property('disabled', true);
     } else {
         d3.select('.chart').selectAll('button').property('disabled', false);
-        redrawChart(newData);
+        xvals = chart1.settings.xName;
+        yvals = chart1.settings.yName;
+        redrawChart(newData, xvals, yvals);
     }
 }
 
@@ -102,13 +104,13 @@ function update() {
  * Removes the previous chart and redraws it with the filtered data
  * @param newData
  */
-function redrawChart(newData) {
+function redrawChart(newData, xvals, yvals) {
     d3.select(".inner-wrapper").remove();
     var showViolin = chart1.violinPlots.options.show;
     var showBean = chart1.dataPlots.options.showBeanLines;
     var showScatter = chart1.dataPlots.options.showPlot;
     var showTrends = chart1.dataPlots.options.showLines;
-    init(newData);
+    init(newData, xvals, yvals);
 
     if (showTrends) handleTrendLinesButton();
     if (showBean) {
@@ -128,11 +130,11 @@ function redrawChart(newData) {
  * @param newData
  * @param xvals
  */
-function init(newData, xvals) {
+function init(newData, xvals, yvals) {
     chart1 = makeDistroChart({
         data:newData,
         xName:xvals,
-        yName:'coleman_liau_index',
+        yName:yvals,
         axisLabels: {xAxis: 'State', yAxis: 'Values'},
         selector:"#chart-distro1",
         chartSize:{height:490, width:800},
@@ -143,9 +145,16 @@ function init(newData, xvals) {
     chart1.renderViolinPlot({showViolinPlot:false});
 }
 
-function callInit(xvals) {
-    init(data, xvals);
-    update();
+function updateX(xvals) {
+    yvals = chart1.settings.yName;
+    data = chart1.settings.data;
+    redrawChart(data, xvals, yvals);
+}
+
+function updateY(yvals) {
+    xvals = chart1.settings.xName;
+    data = chart1.settings.data;
+    redrawChart(data, xvals, yvals);
 }
 
 /**
