@@ -312,11 +312,12 @@ function makeDistroChart(settings) {
         //Update axes
         chart.objs.g.select('.x.axis').attr("transform", "translate(0," + chart.height + ")").call(chart.objs.xAxis)
             .selectAll("text")
-            .attr("y", 5)
-            .attr("x", -5)
-            .attr("transform", "rotate(-45)")
-            .style("text-anchor", "end");
-        chart.objs.g.select('.x.axis .label').attr("x", chart.width / 2);
+            .attr("y", 10)
+            // .attr("x", -5)
+            // .attr("transform", "rotate(-45)")
+            .style("text-anchor", "middle");
+        chart.objs.g.select('.x.axis .label').attr("x", chart.width / 2)
+            .attr("y", 30);
         chart.objs.g.select('.y.axis').call(chart.objs.yAxis.innerTickSize(-chart.width));
         chart.objs.g.select('.y.axis .label').attr("x", -chart.height / 2);
         chart.objs.chartDiv.select('svg').attr("width", chart.width + (chart.margin.left + chart.margin.right)).attr("height", chart.height + (chart.margin.top + chart.margin.bottom));
@@ -355,7 +356,14 @@ function makeDistroChart(settings) {
         chart.objs.axes.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chart.height + ")")
-            .call(chart.objs.xAxis);
+            .call(chart.objs.xAxis)
+            .append("text")
+            .attr("class", "label")
+            .attr("y", 40)
+            // .attr("x", -chart.height / 2)
+            // .attr("dx", ".71em")
+            .style("text-anchor", "middle")
+            .text(chart.xAxisLable);
         chart.objs.axes.append("g")
             .attr("class", "y axis")
             .call(chart.objs.yAxis)

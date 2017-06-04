@@ -138,7 +138,7 @@ function init(newData, xvals, yvals) {
         data:newData,
         xName:xvals,
         yName:yvals,
-        axisLabels: {xAxis: xvals, yAxis: yvals},
+        axisLabels: {xAxis: axisLabel(xvals), yAxis: axisLabel(yvals)},
         selector:"#chart-distro1",
         chartSize:{height:490, width:800},
         constrainExtremes:true});
@@ -211,7 +211,7 @@ function convertStateToCity(state) {
         'AZ' : 'Phoenix',
         'PA' : 'Pittsburgh',
         'IL' : 'Urbana-Champaign'
-    }
+    };
     return stateToCity[state];
 }
 
@@ -223,4 +223,19 @@ function makeValidSelector(name) {
     valid = name.replace(/\s/g, '-');
     valid = valid.replace(/\&/g, 'and');
     return valid;
+}
+
+function axisLabel(name) {
+    var paramToLabel = {
+         'flesch_kincaid_grade' : 'Flesch-Kincaid Grade',
+         'length' : 'Length',
+         'coleman_liau_index' : 'Coleman-Liau Index',
+         'smog_index' : 'SMOG Index',
+         'automated_readability_index' : 'Automated Readability Index',
+         'dale_chall_readability_score' : 'Dale Chall Readability Score',
+         'stars' : 'Stars',
+         'state' : 'States',
+         'price' : 'Price'
+    };
+    return paramToLabel[name];
 }
