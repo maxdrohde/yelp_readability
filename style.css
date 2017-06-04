@@ -28,9 +28,13 @@ button {
     border-left: #535353 solid 2px;
 }
 
+.chart-title {
+    padding-top: 10px;
+}
+
 .filters {
     height: 600px;
-    width: 25%;
+    width: 20%;
     float: left;
     background-color: #ECEBEC;
 }
@@ -79,6 +83,7 @@ button {
 }
 .title h2 {
     color: white;
+    padding-left: 50px;
 }
 .title a {
     color: white;
@@ -246,7 +251,7 @@ input[type=range]:focus::-ms-fill-upper {
     display: none;
 }
 
-.nodata {
+.nodata h2 {
     margin: 20px;
     color: lightgrey;
 }
