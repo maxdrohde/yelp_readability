@@ -107,7 +107,7 @@ function update() {
  */
 function redrawChart(newData, xvals, yvals) {
     d3.select(".inner-wrapper").remove();
-    
+
     var showViolin = chart1.violinPlots.options.show;
     var showBean = chart1.dataPlots.options.showBeanLines;
     var showScatter = chart1.dataPlots.options.showPlot;
@@ -149,15 +149,13 @@ function init(newData, xvals, yvals) {
 }
 
 function updateX(xvals) {
-    yvals = chart1.settings.yName;
-    data = chart1.settings.data;
-    redrawChart(data, xvals, yvals);
+    chart1.settings.xName = xvals;
+    update();
 }
 
 function updateY(yvals) {
-    xvals = chart1.settings.xName;
-    data = chart1.settings.data;
-    redrawChart(data, xvals, yvals);
+    chart1.settings.yName = yvals;
+    update();
 }
 
 /**
