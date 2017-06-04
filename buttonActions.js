@@ -4,6 +4,7 @@ function handleBoxPlotButton() {
     chart1.boxPlots.show({reset:true});
     chart1.notchBoxes.hide();
     chart1.dataPlots.change({showPlot:false,showBeanLines:false});
+    d3.select('.slider-wrapper').style('display', 'none');
 }
 
 function handleViolinPlotButton() {
@@ -11,6 +12,7 @@ function handleViolinPlotButton() {
     chart1.boxPlots.show({reset:true, showWhiskers:false,showOutliers:false,boxWidth:10,lineWidth:15,colors:['#555']});
     chart1.notchBoxes.hide();
     chart1.dataPlots.change({showPlot:false,showBeanLines:false});
+    d3.select('.slider-wrapper').style('display', 'inline-block');
 }
 
 function handleBeanPlotButton() {
@@ -18,6 +20,7 @@ function handleBeanPlotButton() {
     chart1.dataPlots.show({showBeanLines:true,beanWidth:15,showPlot:false,colors:['#555']});
     chart1.boxPlots.hide();
     chart1.notchBoxes.hide();
+    d3.select('.slider-wrapper').style('display', 'inline-block');
 }
 
 function handleScatterPlotButton() {
@@ -25,6 +28,7 @@ function handleScatterPlotButton() {
     chart1.dataPlots.show({showPlot:true, plotType:40, showBeanLines:false,colors:null});
     chart1.notchBoxes.hide();
     chart1.boxPlots.hide();
+    d3.select('.slider-wrapper').style('display', 'none');
 }
 
 function handleTrendLinesButton() {
