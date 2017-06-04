@@ -18,10 +18,10 @@
     <div class='container'>
         <div class='filters'>
             <div class='businesses'>
-                <p>Filter by businesses</p>
+                <p>Business Types</p>
             </div>
             <div class='cities'>
-                <p>Filter by city</p>
+                <p>Cities</p>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
                 <div class="dropdown-content">
                     <div onclick="updateY('flesch_kincaid_grade');" style="cursor: pointer;">Flesch-Kincaid Grade</div>
                     <div onclick="updateY('length');" style="cursor: pointer;">Length</div>
-                    <div onclick="updateY('coleman_liau_index');" style="cursor: pointer;">Coleman-Liau Index</div>                                        
+                    <div onclick="updateY('coleman_liau_index');" style="cursor: pointer;">Coleman-Liau Index</div>
          		   <div onclick="updateY('smog_index');" style="cursor: pointer;">SMOG Index</div>
                    <div onclick="updateY('automated_readability_index');" style="cursor: pointer;">Automated Readability Index</div>
                    <div onclick="updateY('dale_chall_readability_score');" style="cursor: pointer;">Dale Chall Readability Score</div>
@@ -50,7 +50,10 @@
 
 
             <div class="chart-wrapper" id="chart-distro1">
-                <p><br>Readability</p>
+                <p class="chart-title">
+                    <span id="titleY">Readability (Coleman-Liau Index)</span> vs.
+                    <span id="titleX">Stars</span>
+                </p>
                 <button onclick="handleBoxPlotButton();">Box Plot</button>
                 <button onclick="handleViolinPlotButton();">Violin Plot</button>
                 <button onclick="handleBeanPlotButton();">Bean Plot</button>

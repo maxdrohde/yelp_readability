@@ -8,7 +8,7 @@
  */
 
 // Chart display variables
-var width = 800;
+var width = 958;
 var height = 600;
 
 // Data variables
@@ -19,7 +19,7 @@ var businessTypes = ['Active Life','Arts & Entertainment','Automotive','Beauty &
 var states = ['NC','OH','NV','WI','AZ','PA','IL'];
 
 // Create the plot
-var svg = d3.select('#beanplot')
+var svg = d3.select('.chart')
     .attr('height', height)
     .attr('width', width);
 
@@ -140,7 +140,7 @@ function init(newData, xvals, yvals) {
         yName:yvals,
         axisLabels: {xAxis: axisLabel(xvals), yAxis: axisLabel(yvals)},
         selector:"#chart-distro1",
-        chartSize:{height:490, width:800},
+        chartSize:{height:490, width:width},
         constrainExtremes:true});
     chart1.renderBoxPlot();
     chart1.renderDataPlots();
@@ -150,11 +150,14 @@ function init(newData, xvals, yvals) {
 
 function updateX(xvals) {
     chart1.settings.xName = xvals;
+    d3.select('#titleX').html(axisLabel(xvals));
     update();
 }
 
 function updateY(yvals) {
     chart1.settings.yName = yvals;
+    var title = (yvals == "length") ? "Length of Review" : "Readability (" + axisLabel(yvals) + ")";
+    d3.select('#titleY').html(title);
     update();
 }
 
