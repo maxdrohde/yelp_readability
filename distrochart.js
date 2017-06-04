@@ -1513,19 +1513,7 @@ function makeDistroChart(settings) {
                         cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
                             .attr('r', dOpts.pointSize / 2)// Options is diameter, r takes radius so divide by 2
-                            .style("fill", chart.dataPlots.colorFunct(cName)))
-                            .on("mouseover", function(d) {      
-                             div.transition()        
-                            .duration(200)      
-                            .style("opacity", .9);      
-                            div .html("text" + "<br/>"  + "text2")  
-                            .style("left", (d3.event.pageX) + "px")     
-                             .style("top", (d3.event.pageY - 28) + "px");    
-                                      })                  
-        .on("mouseout", function(d) {       
-            div.transition()        
-                .duration(500)      
-                .style("opacity", 0);   
+                            .style("fill", chart.dataPlots.colorFunct(cName))) 
         });
                     }
                 }
