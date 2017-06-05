@@ -1,3 +1,8 @@
+'''
+This script takes in a csv with attributes that are in a python list format
+and extracts price and length data from the reviews.
+'''
+
 import csv
 import time
 
@@ -14,7 +19,7 @@ reviews_writer = csv.writer(outfile)
 # Make a Python dictionary of the businesses
 x = 0
 
-reviews_writer.writerow(next(reviews_reader) + ["price", "length", "alcohol"])
+reviews_writer.writerow(next(reviews_reader) + ["price", "length"])
 for row in reviews_reader:
     x+=1
     try:
